@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>荒井めぐみ | Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Noto+Serif+JP:wght@300;400;700&family=Zen+Maru+Gothic:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  font-family: 'Noto Sans JP', sans-serif;
+  background: #fff;
+  color: #333;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed; top:0; left:0; right:0; z-index:100;
+  display:flex; justify-content:space-between; align-items:center;
+  padding:14px 40px;
+  transition: background 0.3s, box-shadow 0.3s;
+}
+nav.scrolled {
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
+.nav-logo {
+  font-family:'Noto Serif JP',serif;
+  font-size:15px; letter-spacing:0.15em;
+  color:#c0624a; font-weight:400;
+  text-decoration:none;
+}
+.nav-links { list-style:none; display:flex; gap:28px; }
+.nav-links a {
+  font-size:12px; letter-spacing:0.15em; color:#666;
+  text-decoration:none; transition:color 0.2s;
+}
+.nav-links a:hover { color:#c0624a; }
+
+/* ── HERO ── */
+header {
+  background: #e8837a;
+  min-height: 340px;
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  padding: 80px 40px 60px;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+header::before {
+  content:'';
+  position:absolute; inset:0;
+  background: linear-gradient(135deg, #e8837a 0%, #d4605a 50%, #c9554e 100%);
+}
+.hero-content { position:relative; z-index:1; }
+.hero-title {
+  font-size: clamp(36px,7vw,72px);
+  font-weight:700; letter-spacing:0.25em;
+  color:white;
+  font-family:'Noto Serif JP',serif;
+  text-transform:uppercase;
+  line-height:1.1;
+  text-shadow: 0 2px 20px rgba(0,0,0,0.15);
+}
+.hero-sub {
+  font-size: clamp(14px,2vw,20px);
+  color:rgba(255,255,255,0.9);
+  letter-spacing:0.4em;
+  margin-top:16px;
+  font-weight:300;
+}
+
+/* ── PROFILE ── */
+#profile {
+  background:#fff;
+  padding: 60px 5vw;
+}
+.profile-box {
+  max-width:860px; margin:0 auto;
+  border:1px solid #e0e0e0; border-radius:4px;
+  padding:40px 50px;
+}
+.profile-name-ja {
+  font-family:'Noto Serif JP',serif;
+  font-size:22px; font-weight:400;
+  letter-spacing:0.2em; color:#333;
+  margin-bottom:4px;
+}
+.profile-label {
+  font-size:13px; letter-spacing:0.3em;
+  color:#c0624a; margin-bottom:20px;
+  font-weight:500;
+}
+.profile-text {
+  font-size:13px; line-height:2.2;
+  color:#555; font-weight:300;
+  max-width:680px;
+}
+.skills-list {
+  display:flex; flex-wrap:wrap; gap:8px;
+  margin-top:18px;
+}
+.skill-item {
+  font-size:11px; padding:4px 12px;
+  border:1px solid #e8837a; color:#c0624a;
+  border-radius:2px; letter-spacing:0.1em;
+}
+
+/* ── WORKS DIVIDER ── */
+.works-divider {
+  background:#e8837a;
+  padding:14px 0; text-align:center;
+}
+.works-divider h2 {
+  color:white; font-size:16px;
+  letter-spacing:0.4em; font-weight:500;
+  font-family:'Noto Serif JP',serif;
+}
+
+/* ── WORKS ── */
+#works { background:#fff; padding:0; }
+
+.work-item {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:0;
+  border-bottom:1px solid #f0f0f0;
+  padding:50px 5vw;
+  max-width:1100px; margin:0 auto;
+  opacity:0; transform:translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.work-item.visible { opacity:1; transform:translateY(0); }
+.work-item:nth-child(even) { direction:rtl; }
+.work-item:nth-child(even) > * { direction:ltr; }
+
+.work-images {
+  display:flex;
+  gap:10px;
+  align-items:flex-start;
+  padding-right:40px;
+}
+.work-item:nth-child(even) .work-images { padding-right:0; padding-left:40px; }
+
+.work-img-main {
+  width:100%;
+  max-width:260px;
+  border-radius:2px;
+  box-shadow:0 4px 20px rgba(0,0,0,0.1);
+  object-fit:cover;
+  transition:transform 0.3s;
+}
+.work-img-main:hover { transform:scale(1.02); }
+.work-img-sub {
+  width:42%;
+  border-radius:2px;
+  box-shadow:0 4px 15px rgba(0,0,0,0.1);
+  object-fit:cover;
+  margin-top:20px;
+  align-self:flex-end;
+}
+
+/* multi-image layout */
+.images-col {
+  display:flex; flex-direction:column; gap:10px;
+  flex:1;
+}
+.images-row {
+  display:flex; gap:10px; align-items:flex-start;
+}
+
+.work-info { padding-top:10px; }
+.work-category {
+  font-size:11px; letter-spacing:0.3em;
+  color:#c0624a; text-transform:uppercase;
+  margin-bottom:10px; font-weight:500;
+}
+.work-name {
+  font-family:'Noto Serif JP',serif;
+  font-size:20px; font-weight:400;
+  color:#222; margin-bottom:16px;
+  letter-spacing:0.05em; line-height:1.5;
+}
+.work-body {
+  font-size:12.5px; line-height:2.1;
+  color:#555; font-weight:300;
+  margin-bottom:16px;
+}
+.work-url {
+  font-size:11px; color:#999;
+  letter-spacing:0.05em;
+  word-break:break-all;
+}
+.work-tags {
+  display:flex; flex-wrap:wrap; gap:6px;
+  margin-top:14px;
+}
+.work-tag {
+  font-size:10px; padding:3px 10px;
+  background:#fff5f3; color:#c0624a;
+  border:1px solid #f0c0b0; border-radius:2px;
+}
+
+/* ── FOOTER ── */
+footer {
+  background:#e8837a;
+  padding:50px 5vw;
+  text-align:center;
+}
+.footer-message {
+  font-size:13px; line-height:2.3;
+  color:rgba(255,255,255,0.9); font-weight:300;
+  max-width:680px; margin:0 auto 30px;
+}
+.footer-name {
+  font-family:'Noto Serif JP',serif;
+  font-size:18px; color:white;
+  letter-spacing:0.3em; margin-bottom:8px;
+}
+.footer-copy {
+  font-size:11px; color:rgba(255,255,255,0.6);
+  letter-spacing:0.1em;
+}
+
+/* scroll indicator */
+.scroll-hint {
+  position:absolute; bottom:20px; left:50%;
+  transform:translateX(-50%);
+  color:rgba(255,255,255,0.7); font-size:11px;
+  letter-spacing:0.3em; animation:bounce 2s infinite;
+}
+@keyframes bounce {
+  0%,100% { transform:translateX(-50%) translateY(0); }
+  50% { transform:translateX(-50%) translateY(6px); }
+}
+
+@media(max-width:768px) {
+  .work-item { grid-template-columns:1fr; gap:24px; padding:36px 5vw; }
+  .work-item:nth-child(even) { direction:ltr; }
+  .work-images { padding-right:0 !important; padding-left:0 !important; }
+  nav { padding:14px 20px; }
+  .nav-links { display:none; }
+  .profile-box { padding:28px 24px; }
+}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a class="nav-logo" href="#">荒井めぐみ Portfolio</a>
+  <ul class="nav-links">
+    <li><a href="#profile">Profile</a></li>
+    <li><a href="#works">Works</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<header>
+  <div class="hero-content">
+    <h1 class="hero-title">PORTFOLIO</h1>
+    <p class="hero-sub">Arai Megumi</p>
+  </div>
+  <div class="scroll-hint">▼ scroll</div>
+</header>
+
+<!-- PROFILE -->
+<section id="profile">
+  <div class="profile-box">
+    <p class="profile-name-ja">荒井 めぐみ</p>
+    <p class="profile-label">PROFILE</p>
+    <p class="profile-text">
+      これまで一般事務・営業事務・経理事務として、正確性と効率性を求められる業務に従事してまいりました。特に売上集計や資料作成では、情報を整理し「相手にとって見やすく分かりやすい形にすること」を常に意識して取り組んできました。
+現在は職業訓練校にてWebデザインを学んでおり、HTML・CSSを中心に、レイアウト設計や配色、ユーザー視点を意識したデザインの基礎を習得しております。課題制作では、ただ見た目を整えるだけでなく、「目的に沿った伝わるデザイン」を意識し、改善を重ねながら制作に取り組んでおります。
+また、これまでの業務で培った細部まで気を配る力や、納期を意識したスケジュール管理力には自信があります。加えて、接客や電話対応の経験から、相手の要望を汲み取り形にするコミュニケーション力も身につけてまいりました。
+未経験ではありますが、これまでの実務経験と現在の学習を掛け合わせ、実務でも通用するWebデザイナーとして成長し、ユーザーにとって使いやすく魅力的なサイト制作に貢献していきたいと考えております。
+    </p>
+    <div class="skills-list">
+      <span class="skill-item">HTML / CSS</span>
+      <span class="skill-item">JavaScript</span>
+      <span class="skill-item">WordPress</span>
+      <span class="skill-item">Illustrator</span>
+      <span class="skill-item">Photoshop</span>
+      <span class="skill-item">レスポンシブデザイン</span>
+      <span class="skill-item">LP制作</span>
+      <span class="skill-item">SNS運用</span>
+    </div>
+  </div>
+</section>
+
+<!-- WORKS DIVIDER -->
+<div class="works-divider">
+  <h2>作品例</h2>
+</div>
+
+<!-- WORKS -->
+<section id="works">
+
+  <!-- 1: 小動物かふぁ -->
+  <div class="work-item">
+    <div class="work-images">
+      <div class="images-row">
+        <img class="work-img-main" src="./image/1.png" alt="小動物かふぁ メインページ" style="max-width:55%;">
+        <img class="work-img-sub" src="./image/2.png" alt="小動物かふぁ 動物紹介ページ" style="width:42%;margin-top:30px;">
+      </div>
+    </div>
+    <div class="work-info">
+      <p class="work-category">Web Site</p>
+      <h3 class="work-name">小動物かふぁ　あらいくまのもり</h3>
+      <p class="work-body">
+       都内で展開する小動物カフェ「あらいぐまのもり」を想定した架空のWebサイトを制作しました。気軽に癒しを求める女性をターゲットに「やさしくてかわいい世界観」をコンセプトとしています。デザインはパステルピンクを基調に、ストライプや丸みのある装飾を取り入れることで、ふんわりとした可愛らしさを表現しました。また、動物の写真を多く配置し、視覚的にも楽しめる構成にしています。コーディングにはHTMLとCSSを使用し、レイアウトはFlexboxを用いて整え、レスポンシブ対応も意識しました。全体の統一感を出すために色味や余白のバランスを細かく調整した点が工夫したポイントです。一方で、タイトル部分などの文字の視認性には改善の余地があると感じており、今後の課題としています。<br>
+<a href="http://arai0908.shop/">➽小動物かふぇ　あらいくまのもり</a>
+
+
+      </p>
+      <div class="work-tags">
+        <span class="work-tag">HTML</span>
+        <span class="work-tag">CSS</span>
+        <span class="work-tag">JavaScript</span>
+        <span class="work-tag">レスポンシブ</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2: 紅葉まつり -->
+  <div class="work-item">
+    <div class="work-images">
+      <div class="images-col">
+        <img class="work-img-main" src="./image/4.png" alt="紅葉まつりポスター" style="width:100%;max-width:220px;">
+        <div style="display:flex;gap:8px;margin-top:0;">
+          <img src="./image/5.png" alt="マップ" style="width:48%;border-radius:2px;box-shadow:0 4px 12px rgba(0,0,0,0.1);">
+          <img src="./image/6.png" alt="ライトアップポスター" style="width:48%;border-radius:2px;box-shadow:0 4px 12px rgba(0,0,0,0.1);">
+        </div>
+      </div>
+    </div>
+    <div class="work-info">
+      <p class="work-category">Poster / Print</p>
+      <h3 class="work-name">紅葉まつり</h3>
+      <p class="work-body">
+        紅葉まつりのチラシを想定して制作しました。秋の季節感を楽しみたい幅広い年齢層をターゲットに、「視覚的に惹きつけ、イベントの魅力が伝わるデザイン」をコンセプトとしています。メインビジュアルには紅葉と風景写真を大きく使用し、秋らしさと臨場感を表現しました。また、開催日時やアクセス情報などの必要な情報は視認性を意識して整理し、初めて訪れる人にも分かりやすいレイアウトにしています。色味は赤やオレンジを基調に統一し、季節感と温かみを演出しました。さらに、地図やクーポンを掲載することで、来場者の行動を促す工夫も取り入れています。制作にはデザインツールを使用し、情報の優先順位やレイアウトバランスを意識しながら構成しました。視覚的なインパクトと情報の分かりやすさの両立を目指した点が工夫したポイントです。一方で、情報量が多いため、余白の使い方や視線誘導については今後の改善点として考えています。
+      </p>
+      <div class="work-tags">
+        <span class="work-tag">Illustrator</span>
+        <span class="work-tag">Photoshop</span>
+        <span class="work-tag">ポスターデザイン</span>
+        <span class="work-tag">フライヤー</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3: クリスマスイベント -->
+  <div class="work-item">
+    <div class="work-images">
+      <div class="images-row">
+        <img class="work-img-main" src="./image/7.png" alt="クリスマスイベントサイト" style="max-width:55%;">
+        <img src="./image/8.png" alt="イベントページ" style="width:40%;border-radius:2px;box-shadow:0 4px 15px rgba(0,0,0,0.12);margin-top:20px;align-self:flex-end;">
+      </div>
+    </div>
+    <div class="work-info">
+      <p class="work-category">Web Site</p>
+      <h3 class="work-name">アライクマ水族館　クリスマスイベント</h3>
+      <p class="work-body">
+    水族館のクリスマスイベントを想定したWebサイトデザインを制作しました。家族連れやカップルをターゲットに、「幻想的で特別感のあるクリスマス体験」をコンセプトとしています。全体のデザインは青を基調とし、水族館らしい透明感と夜のイルミネーションの美しさを表現しました。メインビジュアルには光や演出のある写真を使用し、非日常的な雰囲気を演出しています。また、イベント情報や見どころはセクションごとに整理し、視線の流れを意識したレイアウトにすることで、情報が直感的に伝わるよう工夫しました。さらに、写真を多く配置することで来場後の体験をイメージしやすくしています。制作にはデザインツールを使用し、配色や情報の優先順位、全体のバランスを意識しながら構成しました。幻想的な世界観と情報の分かりやすさの両立を意識した点が工夫したポイントです。一方で、装飾要素が多いため、余白や情報の強弱の付け方については今後の改善点として考えています。
+      </p>
+      <div class="work-tags">
+        <span class="work-tag">HTML</span>
+        <span class="work-tag">CSS</span>
+        <span class="work-tag">JavaScript</span>
+        <span class="work-tag">イベントLP</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4: グアム旅行 -->
+  <div class="work-item">
+    <div class="work-images">
+      <div class="images-row">
+        <img class="work-img-main" src="./image/9.png" alt="グアム旅行サイト" style="max-width:55%;">
+        <img src="./image/10.png" alt="グアムトラベルプラン" style="width:40%;border-radius:2px;box-shadow:0 4px 15px rgba(0,0,0,0.12);margin-top:20px;">
+      </div>
+    </div>
+    <div class="work-info">
+      <p class="work-category">Web Site</p>
+      <h3 class="work-name">グアム旅行　サイト</h3>
+      <p class="work-body">
+        温泉宿の紹介サイトを想定したWebデザインを制作しました。日常から離れてリラックスしたい大人の男女をターゲットに、「落ち着きと癒しを感じられる空間」をコンセプトとしています。全体のデザインはベージュや淡いトーンを基調にまとめ、やわらかく上品な印象を演出しました。メインビジュアルには温泉や自然の写真を使用し、視覚的にリラックスできる雰囲気を表現しています。また、宿の魅力やプラン内容が伝わりやすいように情報を整理し、余白を活かした読みやすいレイアウトを意識しました。さらに、写真とテキストのバランスを調整することで、閲覧者が快適に情報を得られる構成にしています。制作にはデザインツールを使用し、配色や余白、視線誘導を意識して設計しました。落ち着いた世界観と情報の見やすさを両立した点が工夫したポイントです。一方で、全体的にシンプルなデザインであるため、アクセントの付け方については今後の改善点として考えています。
+      </p>
+      <div class="work-tags">
+        <span class="work-tag">HTML</span>
+        <span class="work-tag">CSS</span>
+        <span class="work-tag">JavaScript</span>
+        <span class="work-tag">Photoshop</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5: グアム Vol2 -->
+  <div class="work-item">
+    <div class="work-images">
+      <div class="images-row">
+        <img class="work-img-main" src="./image/11.png" alt="グアム旅行Vol2" style="max-width:55%;">
+        <img src="./image/12.png" alt="グアムVol2サブ" style="width:40%;border-radius:2px;box-shadow:0 4px 15px rgba(0,0,0,0.12);margin-top:20px;">
+      </div>
+    </div>
+    <div class="work-info">
+      <p class="work-category">Web Site</p>
+      <h3 class="work-name">グアム旅行　サイト Vol.2</h3>
+      <p class="work-body">
+        グアム旅行をテーマにしたWebサイト（Ver.2）を制作しました。海外旅行を検討している若年層やカップルをターゲットに、「開放感とリゾート気分を感じられるデザイン」をコンセプトとしています。全体のデザインは青やエメラルドグリーンを基調とし、海や空をイメージした爽やかで明るい印象に仕上げました。メインビジュアルにはビーチや観光地の写真を使用し、現地での体験を具体的にイメージできるよう工夫しています。また、観光スポットやプラン情報をセクションごとに整理し、視線の流れを意識したレイアウトにすることで、必要な情報にスムーズにアクセスできる構成にしました。さらに、地図や画像を取り入れることで、視覚的にも分かりやすく親しみやすいデザインを意識しています。制作にはデザインツールを使用し、配色や情報設計、全体のバランスを意識して構成しました。リゾート感のある世界観と情報の見やすさを両立した点が工夫したポイントです。一方で、情報量が多いため、余白の使い方や情報の優先順位については今後の改善点として考えています。
+      </p>
+      <div class="work-tags">
+        <span class="work-tag">HTML</span>
+        <span class="work-tag">CSS</span>
+        <span class="work-tag">JavaScript</span>
+        <span class="work-tag">Illustrator</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6: スタジオ広報 -->
+  <div class="work-item">
+    <div class="work-images">
+      <div style="display:flex;justify-content:center;">
+        <img src="./image/13.png" alt="スタジオ幻桜華" style="width:75%;max-width:280px;border-radius:2px;box-shadow:0 4px 20px rgba(0,0,0,0.12);">
+      </div>
+    </div>
+    <div class="work-info">
+      <p class="work-category">SNS / Instagram</p>
+      <h3 class="work-name">スタジオ広報　Instagram用</h3>
+      <p class="work-body">
+        浅草にある和風フォトスタジオ「幻桜華」のスタジオの広告用で、Instagramに掲載するデザインを制作しました。浅草の観光の思い出に和や花を基調としたスタジオで着物姿をしっかりと残したい人をターゲットとしています。メインは桜と和装の人で、よりイメージを膨らませてもらえるよう、実際のスタジオに人がいるような構成にしています。配色は桜を引き立たせるよう白とバランスのいい薄い紫を使用しました。
+      </p>
+      <div class="work-tags">
+        <span class="work-tag">Illustrator</span>
+        <span class="work-tag">Photoshop</span>
+        <span class="work-tag">SNS運用</span>
+        <span class="work-tag">ビジュアルデザイン</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7: ハンドメイド -->
+  <div class="work-item">
+    <div class="work-images">
+      <div class="images-col">
+        <img src="./image/14.png" alt="ハンドメイドサイトTOP" style="width:100%;border-radius:2px;box-shadow:0 4px 15px rgba(0,0,0,0.1);">
+        <div style="display:flex;gap:8px;">
+          <img src="./image/15.png" alt="Aboutページ" style="width:32%;border-radius:2px;box-shadow:0 3px 10px rgba(0,0,0,0.1);">
+          <img src="./image/16.png" alt="Listページ" style="width:32%;border-radius:2px;box-shadow:0 3px 10px rgba(0,0,0,0.1);">
+        </div>
+      </div>
+    </div>
+    <div class="work-info">
+      <p class="work-category">Web Site / Handmade</p>
+      <h3 class="work-name">ハンドメイド　個人サイト</h3>
+      <p class="work-body">
+      ハンドメイドサイト　HARURI
+ハンドメイド作品を紹介する個人サイトとして制作しました。制作にあたっては、「作品の魅力を最大限に引き出し、ユーザーが安心して閲覧・選択できる体験」を重視しています。
+デザイン面では、ハンドメイド特有の温かみややさしい印象を表現するため、パステルカラーを基調に配色を設計しました。また、余白を十分に確保し、視線の流れを意識したレイアウトにすることで、情報の可読性と視認性を高めています。
+トップページではファーストビューにビジュアル要素を配置し、サイト全体の世界観と作品の魅力を直感的に伝える構成としました。詳細ページでは素材や制作背景などの情報を整理し、ユーザーが安心して作品を理解できるよう情報設計を行っています。
+さらに、一覧ページではカード型レイアウトを採用し、複数の作品を比較・検討しやすいUIを実現しました。スマートフォンでの閲覧を前提とし、縦スクロールを軸とした操作性の高い設計にしています。
+本制作を通して、ターゲットに合わせたトーン設計、情報設計、UI/UXの観点から一貫性のあるデザインを意識しました。<br>
+<a href="https://arai0908369-hue.github.io/portfolio/">➽ハンドメイドサイト　HARURI</a>
+
+      </p>
+      <div class="work-tags">
+        <span class="work-tag">HTML</span>
+        <span class="work-tag">CSS</span>
+        <span class="work-tag">JavaScript</span>
+        <span class="work-tag">EC / 販売サイト</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 8: ハンドメイド (7ページ) -->
+  <div class="work-item">
+    <div class="work-images">
+      <div class="images-col">
+        <div style="display:flex;gap:8px;">
+          <img src="./image/17.png" alt="Galleryページ" style="width:48%;border-radius:2px;box-shadow:0 4px 12px rgba(0,0,0,0.1);">
+          <img src="./image/18.png" alt="Contactページ" style="width:48%;border-radius:2px;box-shadow:0 4px 12px rgba(0,0,0,0.1);">
+        </div>
+      </div>
+    </div>
+    <div class="work-info">
+      <p class="work-category">Web Site / Handmade</p>
+      <h3 class="work-name">ハンドメイド　個人サイト　下層ページ</h3>
+      <p class="work-body">
+       こちらは上記のハンドメイド作品紹介サイトの下層ページ（ギャラリー・コンタクト）として制作しました。ユーザーの行動導線を意識し、「作品閲覧から問い合わせまでをスムーズにつなぐ設計」を目的としています。
+ギャラリーページでは、複数の作品を一覧で比較しやすいようグリッドレイアウトを採用しました。視線の流れに沿って自然にスクロールできる構成とし、作品画像が主役となるよう装飾は抑えつつ、サイト全体のトーンとの統一感を維持しています。
+コンタクトページでは、入力フォームの視認性と操作性を重視しました。背景にはブランドイメージを反映した柔らかなビジュアルを使用しつつ、フォーム要素はコントラストを確保することで、ユーザーが迷わず入力できる設計としています。また、入力項目の整理や余白設計により、ストレスのないユーザー体験を目指しました。
+いずれのページもスマートフォンでの閲覧を前提に設計し、縦スクロール中心のシンプルな操作性と、情報の優先順位を意識したレイアウトを実現しています。サイト全体を通して、世界観の一貫性とユーザビリティの両立を重視しました。
+      </p>
+      <div class="work-tags">
+        <span class="work-tag">HTML</span>
+        <span class="work-tag">CSS</span>
+        <span class="work-tag">JavaScript</span>
+        <span class="work-tag">フォーム設計</span>
+        <span class="work-tag">7ページ構成</span>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- FOOTER / CONTACT -->
+<footer id="contact">
+  <p class="footer-name">荒井 めぐみ　Arai Megumi</p>
+  <p class="footer-message">
+   本ポートフォリオでは、「ユーザーにとって分かりやすく、心地よい体験を提供するデザイン」を軸に制作を行いました。見た目の美しさだけでなく、情報設計や操作性を含めたトータルでのデザインを意識しています。
+特に、ターゲットやコンセプトに合わせたトーン設計と、スマートフォンでの閲覧を前提としたUI設計に力を入れました。今後もユーザー視点を大切にしながら、課題解決につながるデザインを追求していきたいと考えています。
+最後までご覧いただき、ありがとうございました。少しでもご興味を持っていただけましたら、ぜひお気軽にご連絡ください。　
+  </p>
+  <p class="footer-copy">© 2024 Arai Megumi. All rights reserved.</p>
+</footer>
+
+<script>
+  // Nav scroll
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // Scroll reveal
+  const items = document.querySelectorAll('.work-item');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if(e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+    });
+  }, {threshold: 0.1});
+  items.forEach(el => obs.observe(el));
+
+  // Smooth scroll
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const t = document.querySelector(a.getAttribute('href'));
+      if(t) { e.preventDefault(); t.scrollIntoView({behavior:'smooth'}); }
+    });
+  });
+</script>
+</body>
+</html>
